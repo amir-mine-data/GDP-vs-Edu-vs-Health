@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="p1style.css" />
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+	<script type="text/javascript">
+		
+		google.charts.load('visualization', '1.1', {'packages': ['corechart','bar', 'geochart'],'mapsApiKey':'AIzaSyDZi61gmicwb3U_dGE8PANnsB7hwpUuA54'});
+		google.charts.setOnLoadCallback(drawAllSheets);
+
+		
+		
+		function drawAllSheets() {
+			drawSheetName('G20', 'SELECT A, M', g20ResponseHandler);
+			drawSheetName('G20-GDP', 'SELECT A, N', topaveragegdppercentageResponseHandler);
+			drawSheetName('G20-Health', 'SELECT A, L', topaveragehealthResponseHandler);
+			drawSheetName('G20-Education', 'SELECT A, L', topaverageeducationResponseHandler);
+			drawSheetName('gdpmilitaryhealtheducation','SELECT A, B, O, AB, AO',gdpmilitaryhealtheducation06ResponseHandler);
+			drawSheetName('gdpmilitaryhealtheducation','SELECT A, C, P, AC, AP',gdpmilitaryhealtheducation07ResponseHandler);
+			drawSheetName('gdpmilitaryhealtheducation','SELECT A, D, Q, AD, AQ',gdpmilitaryhealtheducation08ResponseHandler);
+			drawSheetName('gdpmilitaryhealtheducation','SELECT A, E, R, AE, AR',gdpmilitaryhealtheducation09ResponseHandler);
+			drawSheetName('gdpmilitaryhealtheducation','SELECT A, F, S, AF, AS',gdpmilitaryhealtheducation10ResponseHandler);
+			drawSheetName('gdpmilitaryhealtheducation','SELECT A, G, T, AG, AT',gdpmilitaryhealtheducation11ResponseHandler);
+			drawSheetName('gdpmilitaryhealtheducation','SELECT A, H, U, AH, AU',gdpmilitaryhealtheducation12ResponseHandler);
+			drawSheetName('gdpmilitaryhealtheducation','SELECT A, I, V, AI, AV',gdpmilitaryhealtheducation13ResponseHandler);
+			drawSheetName('gdpmilitaryhealtheducation','SELECT A, J, W, AJ, AW',gdpmilitaryhealtheducation14ResponseHandler);
+			drawSheetName('healtheducationgdp', 'SELECT A, B, AB, O', healtheducationgdp06ResponseHandler);
+			drawSheetName('healtheducationgdp', 'SELECT A, C, AC, P', healtheducationgdp07ResponseHandler);
+			drawSheetName('healtheducationgdp', 'SELECT A, D, AD, Q', healtheducationgdp08ResponseHandler);
+			drawSheetName('healtheducationgdp', 'SELECT A, E, AE, R', healtheducationgdp09ResponseHandler);
+			drawSheetName('healtheducationgdp', 'SELECT A, F, AF, S', healtheducationgdp10ResponseHandler);
+			drawSheetName('healtheducationgdp', 'SELECT A, G, AG, T', healtheducationgdp11ResponseHandler);
+			drawSheetName('healtheducationgdp', 'SELECT A, H, AH, U', healtheducationgdp12ResponseHandler);
+			drawSheetName('healtheducationgdp', 'SELECT A, I, AI, V', healtheducationgdp13ResponseHandler);
+			drawSheetName('healtheducationgdp', 'SELECT A, J, AJ, W', healtheducationgdp14ResponseHandler);
+			drawSheetName('educationhealthvsgdppercapita', 'SELECT A, O, B, AB', healtheducationvsgdppercapita2006ResponseHandler);
+			drawSheetName('educationhealthvsgdppercapita', 'SELECT A, P, C, AC', healtheducationvsgdppercapita2007ResponseHandler);
+			drawSheetName('educationhealthvsgdppercapita', 'SELECT A, Q, D, AD', healtheducationvsgdppercapita2008ResponseHandler);
+			drawSheetName('educationhealthvsgdppercapita', 'SELECT A, R, E, AE', healtheducationvsgdppercapita2009ResponseHandler);
+			drawSheetName('educationhealthvsgdppercapita', 'SELECT A, S, F, AF', healtheducationvsgdppercapita2010ResponseHandler);
+			drawSheetName('educationhealthvsgdppercapita', 'SELECT A, T, G, AG', healtheducationvsgdppercapita2011ResponseHandler);
+			drawSheetName('educationhealthvsgdppercapita', 'SELECT A, U, H, AH', healtheducationvsgdppercapita2012ResponseHandler);
+			drawSheetName('educationhealthvsgdppercapita', 'SELECT A, V, I, AI', healtheducationvsgdppercapita2013ResponseHandler);
+			drawSheetName('educationhealthvsgdppercapita', 'SELECT A, W, J, AJ', healtheducationvsgdppercapita2014ResponseHandler);
+			
+			drawSheetName('fastesthealthgrowing', 'SELECT A, B, C, D, E, F, G, H, I, J', fastesthealthgrowingResponseHandler);
+			drawSheetName('fastesteducationgrowing', 'SELECT A, B, C, D, E, F, G, H, I, J', fastesteducationgrowingResponseHandler);
+			drawSheetName('fastesthealthgrowingpercent', 'SELECT A, B, C, D, E, F, G, H, I, J', fastesthealthgrowingpercentResponseHandler);
+			drawSheetName('fastesteducationgrowingpercent', 'SELECT A, B, C, D, E, F, G, H, I, J', fastesteducationgrowingpercentResponseHandler);
+			
+			
+		}//drawAllSheets
+		
+		function drawSheetName(sheetName, query, responseHandler) {
+				var queryString = encodeURIComponent(query);
+				var query = new google.visualization.Query(
+					'https://docs.google.com/spreadsheets/d/1o9Zlts_jKwkQvDrnxvqqr6L0Aj1hB5Mdh8QqNA0tNq4/gviz/tq?sheet=' 
+					+ sheetName + '&headers=1&tq=' + queryString);
+				query.send(responseHandler);
+		} //drawSheetName
+
+		function checkError(response) {
+				if (response.isError()) {
+					alert('Error in query: ' + response.getMessage() +
+						' ' + response.getDetailedMessage());
+					return;
+				}		
+		}//checkError
+		
+		function g20ResponseHandler(response) {
+		  checkError(response);
+				var data = response.getDataTable(); 
+
+		  var options = {
+			width: 1200,
+				height: 1000,
+			displayMode: 'markers',
+			colorAxis: {colors: ['red', 'blue']}
+		  };
+
+		  var chart = new google.visualization.GeoChart(document.getElementById('g20_div'));
+		  chart.draw(data, options);
+		};//g20ResponseHandler
+		
+		
+			
+		function topaveragegdppercentageResponseHandler(response) {
+				checkError(response);
+				var data = response.getDataTable();
+				data.sort({column: 1, desc: true});
+				var options = {
+				
+				width: 1200,
+				height: 800,
+				
+				annotations: {alwaysOutside: true},
+				title: 'Average shared GDP of G20 countries 2006 - 2016 (%)',
+				
+				/*legend: 'none',*/
+				pieSliceText: 'value',
+				sliceVisibilityThreshold: .031,
+				pieHole: 0.25,
+				pieSliceTextStyle: {
+				fontSize: 12,
+			  },
+				slices: {  0: {offset: 0.1},
+						1: {offset: 0.1},
+						2: {offset: 0.1},
+						3: {offset: 0.1},
+						4: {offset: 0.1},
+						5: {offset: 0.1},
+						6: {offset: 0.1},
+						7: {offset: 0.1},
+						8: {offset: 0.1},
+						9: {offset: 0.1},
+						10: {offset: 0.1},
+						
+			  },
+			};
+			
+				var chart = new google.visualization.PieChart(
+						document.getElementById('topaveragegdppercentage_div'));
+				chart.draw(data, options);
+			} //topaveragegdppercentageResponseHandler
+			
+			function topaveragehealthResponseHandler(response) {
+				checkError(response);
+				var data = response.getDataTable();
+				data.sort({column: 1, desc: true});
+				var options = {
+				
+				width: 1200,
+				height: 800,
+				
+				annotations: {alwaysOutside: true},
+				title: 'Average Health expenditure of G20 countries 2006 - 2014 (%)',
+				is3D: true,
+				/*legend: 'none',*/
+				pieSliceText: 'value',
+				sliceVisibilityThreshold: .020,
+				
+				pieSliceTextStyle: {
+				fontSize: 12,
+			  },
+				slices: {  0: {offset: 0.1},
+						1: {offset: 0.2},
+						2: {offset: 0.2},
+						3: {offset: 0.25},
+						4: {offset: 0.3},
+						5: {offset: 0.3},
+						6: {offset: 0.3},
+						7: {offset: 0.3},
+						8: {offset: 0.3},
+						9: {offset: 0.3},
+						11: {offset: 0.1},		
+			  },
+			};
+			
+				var chart = new google.visualization.PieChart(
+						document.getElementById('topaveragehealth_div'));
+				chart.draw(data, options);
+			} //topaveragehealthResponseHandler
+			
+			function topaverageeducationResponseHandler(response) {
+				checkError(response);
+				var data = response.getDataTable();
+				data.sort({column: 1, desc: true});
+				var options = {
+				
+				width: 1200,
+				height: 800,
+				
+				annotations: {alwaysOutside: true},
+				title: 'Average Education expenditure of G20 countries 2006 - 2014 (%)',
+				is3D: true,
+				/*legend: 'none',*/
+				pieSliceText: 'value',
+				sliceVisibilityThreshold: .028,
+				
+				pieSliceTextStyle: {
+				fontSize: 12,
+			  },
+				slices: {  0: {offset: 0.1},
+						1: {offset: 0.1},
+						2: {offset: 0.2},
+						3: {offset: 0.25},
+						4: {offset: 0.3},
+						5: {offset: 0.3},
+						6: {offset: 0.3},
+						7: {offset: 0.3},
+						8: {offset: 0.3},
+						9: {offset: 0.3},
+						10: {offset: 0.1},		
+			  },
+			};
+			
+				var chart = new google.visualization.PieChart(
+						document.getElementById('topaverageeducation_div'));
+				chart.draw(data, options);
+			} //topaverageeducationResponseHandler
+		
+		
+		function healtheducationgdp06ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs GDP in 2006',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+				
+			};
+			var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp06_div'));
+			chart.draw(data, options);
+		
+		};//healtheducationgdp06ResponseHandler
+		
+		
+		
+		
+		function healtheducationgdp07ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs GDP in 2007',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+				
+			};
+			var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp07_div'));
+			chart.draw(data, options);
+		
+		};//healtheducationgdp07ResponseHandler
+		
+		function healtheducationgdp08ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs GDP in 2008',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+				
+			};
+			var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp08_div'));
+			chart.draw(data, options);
+		
+		};//healtheducationgdp08ResponseHandler
+		
+		function healtheducationgdp09ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs GDP in 2009',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+				
+			};
+			var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp09_div'));
+			chart.draw(data, options);
+		
+		};//healtheducationgdp09ResponseHandler
+		
+		function healtheducationgdp10ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs GDP in 2010',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+				
+			};
+			var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp10_div'));
+			chart.draw(data, options);
+		
+		};//healtheducationgdp10ResponseHandler
+		
+		function healtheducationgdp11ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs GDP in 2011',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+				
+			};
+			var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp11_div'));
+			chart.draw(data, options);
+		
+		};//healtheducationgdp11ResponseHandler
+		
+		function healtheducationgdp12ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs GDP in 2012',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+				
+			};
+			var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp12_div'));
+			chart.draw(data, options);
+		
+		};//healtheducationgdp12ResponseHandler
+		
+		function healtheducationgdp13ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs GDP in 2013',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+				
+			};
+			var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp13_div'));
+			chart.draw(data, options);
+		
+		};//healtheducationgdp13ResponseHandler
+		
+		function healtheducationgdp14ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs GDP in 2014',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+				
+			};
+			var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp14_div'));
+			chart.draw(data, options);
+		
+		};//healtheducationgdp14ResponseHandler
+		
+		function healtheducationmilitary06ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs Military in 2006',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+			};
+		var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp06_div'));
+		chart.draw(data, options);
+		};//healtheducationmilitary06ResponseHandler
+		
+		function healtheducationmilitary07ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs Military in 2007',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+			};
+		var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp07_div'));
+		chart.draw(data, options);
+		};//healtheducationmilitary07ResponseHandler
+		
+		function healtheducationmilitary08ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs Military in 2008',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+			};
+		var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp08_div'));
+		chart.draw(data, options);
+		};//healtheducationmilitary08ResponseHandler
+		
+		function healtheducationmilitary09ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs Military in 2009',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+			};
+		var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp09_div'));
+		chart.draw(data, options);
+		};//healtheducationmilitary09ResponseHandler
+		
+		function healtheducationmilitary10ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs Military in 2010',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+			};
+		var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp10_div'));
+		chart.draw(data, options);
+		};//healtheducationmilitary10ResponseHandler
+		
+		function healtheducationmilitary11ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs Military in 2011',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+			};
+		var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp11_div'));
+		chart.draw(data, options);
+		};//healtheducationmilitary11ResponseHandler
+		
+		function healtheducationmilitary12ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs Military in 2012',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+			};
+		var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp12_div'));
+		chart.draw(data, options);
+		};//healtheducationmilitary12ResponseHandler
+		
+		function healtheducationmilitary13ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs Military in 2013',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+			};
+		var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp13_div'));
+		chart.draw(data, options);
+		};//healtheducationmilitary13ResponseHandler
+		
+		function healtheducationmilitary14ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 3, desc:true});
+			var options = {
+				width: 1200,
+				height: 700,
+				title: 'Comparing Health and Education vs Military in 2014',
+				vAxis: {title: 'Expenditure ($)'},
+				hAxis: {title: 'Country', slantedText: true, slantedTextAngle: 90},
+				seriesType: 'bars',
+				series: {2: {type: 'line'}}
+			};
+		var chart = new google.visualization.ComboChart(
+							document.getElementById('healtheducationmilitarygdp14_div'));
+		chart.draw(data, options);
+		};//healtheducationmilitary14ResponseHandler
+		
+		function healtheducationvsgdppercapita2006ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 1, desc:true});
+			var options = {
+				
+				width: 1200,
+				height: 700,
+				
+				bars: 'horizontal',
+				annotations: {alwaysOutside: true},
+				title: 'Comparing Health and education vs GDP per Capita in 2006',
+				vAxis: {title: 'Country', slantedTextAngle:90},
+				hAxis: {title: 'Education and health vs GDP per capita ($)'},
+				
+			};
+			
+		var chart = new google.visualization.BarChart(
+							document.getElementById('hegdppercapita2006_div'));
+				chart.draw(data, options);
+		};//healtheducationvsgdppercapita2006ResponseHandler
+		
+		function healtheducationvsgdppercapita2007ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 1, desc:true});
+			var options = {
+				
+				width: 1200,
+				height: 700,
+				
+				bars: 'horizontal',
+				annotations: {alwaysOutside: true},
+				title: 'Comparing Health and education vs GDP per Capita in 2007',
+				vAxis: {title: 'Country', slantedTextAngle:90},
+				hAxis: {title: 'Education and health vs GDP per capita ($)'},
+				
+			};
+			
+		var chart = new google.visualization.BarChart(
+							document.getElementById('hegdppercapita2007_div'));
+				chart.draw(data, options);
+		};//healtheducationvsgdppercapita2007ResponseHandler
+		
+		function healtheducationvsgdppercapita2008ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 1, desc:true});
+			var options = {
+				
+				width: 1200,
+				height: 700,
+				
+				bars: 'horizontal',
+				annotations: {alwaysOutside: true},
+				title: 'Comparing Health and education vs GDP per Capita in 2008',
+				vAxis: {title: 'Country', slantedTextAngle:90},
+				hAxis: {title: 'Education and health vs GDP per capita ($)'},
+				
+			};
+			
+		var chart = new google.visualization.BarChart(
+							document.getElementById('hegdppercapita2008_div'));
+				chart.draw(data, options);
+		};//healtheducationvsgdppercapita2008ResponseHandler
+		
+		function healtheducationvsgdppercapita2009ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 1, desc:true});
+			var options = {
+				
+				width: 1200,
+				height: 700,
+				
+				bars: 'horizontal',
+				annotations: {alwaysOutside: true},
+				title: 'Comparing Health and education vs GDP per Capita in 2009',
+				vAxis: {title: 'Country', slantedTextAngle:90},
+				hAxis: {title: 'Education and health vs GDP per capita ($)'},
+				
+			};
+			
+		var chart = new google.visualization.BarChart(
+							document.getElementById('hegdppercapita2009_div'));
+				chart.draw(data, options);
+		};//healtheducationvsgdppercapita2009ResponseHandler
+		
+		function healtheducationvsgdppercapita2010ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 1, desc:true});
+			var options = {
+				
+				width: 1200,
+				height: 700,
+				
+				bars: 'horizontal',
+				annotations: {alwaysOutside: true},
+				title: 'Comparing Health and education vs GDP per Capita in 2010',
+				vAxis: {title: 'Country', slantedTextAngle:90},
+				hAxis: {title: 'Education and health vs GDP per capita ($)'},
+				
+			};
+			
+		var chart = new google.visualization.BarChart(
+							document.getElementById('hegdppercapita2010_div'));
+				chart.draw(data, options);
+		};//healtheducationvsgdppercapita2010ResponseHandler
+		
+		function healtheducationvsgdppercapita2011ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 1, desc:true});
+			var options = {
+				
+				width: 1200,
+				height: 700,
+				
+				bars: 'horizontal',
+				annotations: {alwaysOutside: true},
+				title: 'Comparing Health and education vs GDP per Capita in 2011',
+				vAxis: {title: 'Country', slantedTextAngle:90},
+				hAxis: {title: 'Education and health vs GDP per capita ($)'},
+				
+			};
+			
+		var chart = new google.visualization.BarChart(
+							document.getElementById('hegdppercapita2011_div'));
+				chart.draw(data, options);
+		};//healtheducationvsgdppercapita2011ResponseHandler
+		
+		function healtheducationvsgdppercapita2012ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 1, desc:true});
+			var options = {
+				
+				width: 1200,
+				height: 700,
+				
+				bars: 'horizontal',
+				annotations: {alwaysOutside: true},
+				title: 'Comparing Health and education vs GDP per Capita in 2012',
+				vAxis: {title: 'Country', slantedTextAngle:90},
+				hAxis: {title: 'Education and health vs GDP per capita ($)'},
+				
+			};
+			
+		var chart = new google.visualization.BarChart(
+							document.getElementById('hegdppercapita2012_div'));
+				chart.draw(data, options);
+		};//healtheducationvsgdppercapita2012ResponseHandler
+		
+		function healtheducationvsgdppercapita2013ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 1, desc:true});
+			var options = {
+				
+				width: 1200,
+				height: 700,
+				
+				bars: 'horizontal',
+				annotations: {alwaysOutside: true},
+				title: 'Comparing Health and education vs GDP per Capita in 2013',
+				vAxis: {title: 'Country', slantedTextAngle:90},
+				hAxis: {title: 'Education and health vs GDP per capita ($)'},
+				
+			};
+			
+		var chart = new google.visualization.BarChart(
+							document.getElementById('hegdppercapita2013_div'));
+				chart.draw(data, options);
+		};//healtheducationvsgdppercapita2013ResponseHandler
+		
+		function healtheducationvsgdppercapita2014ResponseHandler(response) {
+			checkError(response);
+			var data = response.getDataTable();
+			data.sort({column: 1, desc:true});
+			var options = {
+				
+				width: 1200,
+				height: 700,
+				
+				bars: 'horizontal',
+				annotations: {alwaysOutside: true},
+				title: 'Comparing Health and education vs GDP per Capita in 2014',
+				vAxis: {title: 'Country', slantedTextAngle:90},
+				hAxis: {title: 'Education and health vs GDP per capita ($)'},
+				
+			};
+			
+		var chart = new google.visualization.BarChart(
+							document.getElementById('hegdppercapita2014_div'));
+				chart.draw(data, options);
+		};//healtheducationvsgdppercapita2014ResponseHandler
+		function fastesthealthgrowingResponseHandler(response) {
+				checkError(response);
+				var data = response.getDataTable();
+				data.sort({column: 9, desc:true});
+				
+				var options = {
+					height: 700,
+					width: 1450,
+					bars: 'vertical',
+					bar: {groupWidth: "60%"},				
+					annotations: {alwaysOutside: true},
+					title: 'Fastest growing in health expenditure fixed value in G20 Countries',
+					vAxis: {title: 'Health expenditure ($)'},
+					hAxis: {title: 'Country', slantedTextAngle:90},
+					seriesType: 'bars',
+				series: {8: {type: 'line'}}
+				};
+				var chart = new google.visualization.ComboChart(
+							document.getElementById('fastesthealthgrowing_div'));
+				chart.draw(data, options);
+			} //fastesthealthgrowingResponseHandler
+			
+			
+			function fastesteducationgrowingResponseHandler(response) {
+				checkError(response);
+				var data = response.getDataTable();
+				data.sort({column: 9, desc:true});
+				
+				var options = {
+					height: 700,
+					width: 1450,
+					bars: 'vertical',
+					bar: {groupWidth: "60%"},				
+					annotations: {alwaysOutside: true},
+					title: 'Fastest growing in education expenditure fixed value in G20 Countries',
+					vAxis: {title: 'Education expenditure ($)'},
+					hAxis: {title: 'Country', slantedTextAngle:90},
+					seriesType: 'bars',
+				series: {8: {type: 'line'}}
+				};
+				var chart = new google.visualization.ComboChart(
+							document.getElementById('fastesteducationgrowing_div'));
+				chart.draw(data, options);
+			} //fastesteducationgrowingResponseHandler
+			
+			
+			function fastesthealthgrowingpercentResponseHandler(response) {
+				checkError(response);
+				var data = response.getDataTable();
+				data.sort({column: 9, desc:true});
+				
+				var options = {
+					height: 700,
+					width: 1450,
+					bars: 'vertical',
+					bar: {groupWidth: "60%"},				
+					annotations: {alwaysOutside: true},
+					title: 'Fastest growing in health expenditure percentage in G20 Countries',
+					vAxis: {title: 'Health expenditure (%)'},
+					hAxis: {title: 'Country', slantedTextAngle:90},
+					seriesType: 'bars',
+				series: {8: {type: 'line'}}
+				};
+				var chart = new google.visualization.ComboChart(
+							document.getElementById('fastesthealthgrowingpercent_div'));
+				chart.draw(data, options);
+			} //fastesthealthgrowingpercentResponseHandler
+			
+			function fastesteducationgrowingpercentResponseHandler(response) {
+				checkError(response);
+				var data = response.getDataTable();
+				data.sort({column: 9, desc:true});
+				
+				var options = {
+					height: 700,
+					width: 1450,
+					bars: 'vertical',
+					bar: {groupWidth: "60%"},				
+					annotations: {alwaysOutside: true},
+					title: 'Fastest growing in education expenditure percentage in G20 Countries',
+					vAxis: {title: 'Education expenditure (%)'},
+					hAxis: {title: 'Country', slantedTextAngle:90},
+					seriesType: 'bars',
+				series: {8: {type: 'line'}}
+				};
+				var chart = new google.visualization.ComboChart(
+							document.getElementById('fastesteducationgrowingpercent_div'));
+				chart.draw(data, options);
+			} //fastesteducationgrowingpercentResponseHandler
+		
+			function gdpmilitaryhealtheducation06ResponseHandler(response){
+				checkError(response);
+				var data = response.getDataTable();
+				var options = {
+					width: 1200,
+					height: 700,
+					bubble: {textStyle: {fontSize: 11}},
+					colors: ['blue', 'red'],
+					title: 'Comparing Health and education with military expenditure and GDP of countries in 2006',
+					vAxis: {title: 'Health expenditure($)'},
+					hAxis: {title: 'Education expenditure ($)'}
+				}
+				var chart = new google.visualization.BubbleChart(
+							document.getElementById('gdpmilitaryhealtheducation06_div'));
+				chart.draw(data, options);
+			
+			}//gdpmilitaryhealtheducation06ResponseHandler
+			
+			function gdpmilitaryhealtheducation07ResponseHandler(response){
+				checkError(response);
+				var data = response.getDataTable();
+				var options = {
+					width: 1200,
+					height: 700,
+					bubble: {textStyle: {fontSize: 11}},
+					colors: ['blue', 'red'],
+					title: 'Comparing Health and education with military expenditure and GDP of countries in 2007',
+					vAxis: {title: 'Health expenditure($)'},
+					hAxis: {title: 'Education expenditure ($)'}
+				}
+				var chart = new google.visualization.BubbleChart(
+							document.getElementById('gdpmilitaryhealtheducation07_div'));
+				chart.draw(data, options);
+			
+			}//gdpmilitaryhealtheducation07ResponseHandler
+			
+			function gdpmilitaryhealtheducation08ResponseHandler(response){
+				checkError(response);
+				var data = response.getDataTable();
+				var options = {
+					width: 1200,
+					height: 700,
+					bubble: {textStyle: {fontSize: 11}},
+					colors: ['blue', 'red'],
+					title: 'Comparing Health and education with military expenditure and GDP of countries in 2008',
+					vAxis: {title: 'Health expenditure($)'},
+					hAxis: {title: 'Education expenditure ($)'}
+				}
+				var chart = new google.visualization.BubbleChart(
+							document.getElementById('gdpmilitaryhealtheducation08_div'));
+				chart.draw(data, options);
+			
+			}//gdpmilitaryhealtheducation08ResponseHandler
+			
+			function gdpmilitaryhealtheducation09ResponseHandler(response){
+				checkError(response);
+				var data = response.getDataTable();
+				var options = {
+					width: 1200,
+					height: 700,
+					bubble: {textStyle: {fontSize: 11}},
+					colors: ['blue', 'red'],
+					title: 'Comparing Health and education with military expenditure and GDP of countries in 2009',
+					vAxis: {title: 'Health expenditure($)'},
+					hAxis: {title: 'Education expenditure ($)'}
+				}
+				var chart = new google.visualization.BubbleChart(
+							document.getElementById('gdpmilitaryhealtheducation09_div'));
+				chart.draw(data, options);
+			
+			}//gdpmilitaryhealtheducation09ResponseHandler
+			
+			function gdpmilitaryhealtheducation10ResponseHandler(response){
+				checkError(response);
+				var data = response.getDataTable();
+				var options = {
+					width: 1200,
+					height: 700,
+					bubble: {textStyle: {fontSize: 11}},
+					colors: ['blue', 'red'],
+					title: 'Comparing Health and education with military expenditure and GDP of countries in 2010',
+					vAxis: {title: 'Health expenditure($)'},
+					hAxis: {title: 'Education expenditure ($)'}
+				}
+				var chart = new google.visualization.BubbleChart(
+							document.getElementById('gdpmilitaryhealtheducation10_div'));
+				chart.draw(data, options);
+			
+			}//gdpmilitaryhealtheducation10ResponseHandler
+			
+			function gdpmilitaryhealtheducation11ResponseHandler(response){
+				checkError(response);
+				var data = response.getDataTable();
+				var options = {
+					width: 1200,
+					height: 700,
+					bubble: {textStyle: {fontSize: 11}},
+					colors: ['blue', 'red'],
+					title: 'Comparing Health and education with military expenditure and GDP of countries in 2011',
+					vAxis: {title: 'Health expenditure($)'},
+					hAxis: {title: 'Education expenditure ($)'}
+				}
+				var chart = new google.visualization.BubbleChart(
+							document.getElementById('gdpmilitaryhealtheducation11_div'));
+				chart.draw(data, options);
+			
+			}//gdpmilitaryhealtheducation11ResponseHandler
+			
+			function gdpmilitaryhealtheducation12ResponseHandler(response){
+				checkError(response);
+				var data = response.getDataTable();
+				var options = {
+					width: 1200,
+					height: 700,
+					bubble: {textStyle: {fontSize: 11}},
+					colors: ['blue', 'red'],
+					title: 'Comparing Health and education with military expenditure and GDP of countries in 2012',
+					vAxis: {title: 'Health expenditure($)'},
+					hAxis: {title: 'Education expenditure ($)'}
+				}
+				var chart = new google.visualization.BubbleChart(
+							document.getElementById('gdpmilitaryhealtheducation12_div'));
+				chart.draw(data, options);
+			
+			}//gdpmilitaryhealtheducation12ResponseHandler
+			
+			function gdpmilitaryhealtheducation13ResponseHandler(response){
+				checkError(response);
+				var data = response.getDataTable();
+				var options = {
+					width: 1200,
+					height: 700,
+					bubble: {textStyle: {fontSize: 11}},
+					colors: ['blue', 'red'],
+					title: 'Comparing Health and education with military expenditure and GDP of countries in 2013',
+					vAxis: {title: 'Health expenditure($)'},
+					hAxis: {title: 'Education expenditure ($)'}
+				}
+				var chart = new google.visualization.BubbleChart(
+							document.getElementById('gdpmilitaryhealtheducation13_div'));
+				chart.draw(data, options);
+			
+			}//gdpmilitaryhealtheducation13ResponseHandler
+			
+			function gdpmilitaryhealtheducation14ResponseHandler(response){
+				checkError(response);
+				var data = response.getDataTable();
+				var options = {
+					width: 1200,
+					height: 700,
+					bubble: {textStyle: {fontSize: 11}},
+					colors: ['blue', 'red'],
+					title: 'Comparing Health and education with military expenditure and GDP of countries in 2014',
+					vAxis: {title: 'Health expenditure($)'},
+					hAxis: {title: 'Education expenditure ($)'}
+				}
+				var chart = new google.visualization.BubbleChart(
+							document.getElementById('gdpmilitaryhealtheducation14_div'));
+				chart.draw(data, options);
+			
+			}//gdpmilitaryhealtheducation14ResponseHandler
+		
+	</script>
+
+
+<body>
+	<div id='top'>
+		<h1>Data Visualization - Project 1 </h1>
+		<h2>In this project, I compared education, health, military expenditures of G20 countries with their GDP. </br>
+			The datasets are obtained from World Bank website but due to missing data in education dataset for a few countries in some years, </br>
+			I used www.indexmundi.com to get the missing data. I visualized the data of top 10 countries in health and education expenditure from 2006 to 2014.
+			The data of Education and Health expenditure of 2015 and 2016 were not provided in both datasets. </h2>
+		
+	</div>
+		</br>
+		<h3>First, let's check the G20 countries and their GDPs in the following map.</h3>
+		<div id='g20_div'></div><!-- top average GDP chart -->
+		</br>
+		<h1>Section 1 - Top 10 countries in education and health expenditures</h1>
+		</br>
+		<h3>I visualized the top nations based on their GDP in G20 group. 
+		The pie chart shows the percentages of shared GDP of G20 from 2006 to 2016.</h3>
+		<div id='topaveragegdppercentage_div'></div><!-- top average GDP percentage chart -->
+		</br>
+		<h3>The pie chart shows the countries Health expenditure from 2006 to 2014. </h3>
+		<div id='topaveragehealth_div'></div><!-- top average health percentage chart -->
+		</br>
+		<h3>The pie chart shows the countries education expenditure from 2006 to 2014. </h3>
+		<div id='topaverageeducation_div'></div><!-- top average education percentage chart -->
+		</br>
+		<h1>Section 2 - Health, education and military expenditures vs GDP</h1>
+		</br>
+		
+		<h3>In the following charts, I compared the Health, education and military expenditures vs GDP of countries
+		in each year from 2006 to 2014.</h3>
+	<!-- Health and Education expenditures vs GDP and military expenditure charts -->
+				
+		
+		<div class="healtheducationmilitarygdp06_div">
+			<div id="gdpmilitaryhealtheducation06_div"></div>
+			<div id="healtheducationmilitarygdp06_div"></div>
+			<button onclick="healtheducationgdp_view06()" id="myInput06" value="GDP06">Comparison with GDP or Military</button>
+			<script>
+				function healtheducationgdp_view06() {
+				  var Year = document.getElementById("myInput06").value;
+				  switch(Year) {
+					case ("GDP06"):
+						drawSheetName('healtheducationmilitary', 'SELECT A, B, AB, O', healtheducationmilitary06ResponseHandler);
+					default:
+						drawSheetName('healtheducationgdp', 'SELECT A, B, AB, O', healtheducationgdp06ResponseHandler);
+				  }
+				}
+			</script>
+		</div>
+		<div class="healtheducationmilitarygdp07_div">
+			<div id="gdpmilitaryhealtheducation07_div"></div>
+			<div id="healtheducationmilitarygdp07_div"></div>
+			<button onclick="healtheducationgdp_view07()" id="myInput07" value="GDP07">Comparison with GDP or Military</button>
+			<script>
+				function healtheducationgdp_view07() {
+				  var Year = document.getElementById("myInput07").value;
+				  switch(Year) {
+					case ("GDP07"):
+						drawSheetName('healtheducationmilitary', 'SELECT A, C, AC, P', healtheducationmilitary07ResponseHandler);
+					default:
+						drawSheetName('healtheducationgdp', 'SELECT A, C, AC, P', healtheducationgdp07ResponseHandler);
+				  }
+				}
+			</script>
+		</div>
+		<div class="healtheducationmilitarygdp08_div">
+			<div id="gdpmilitaryhealtheducation08_div"></div>
+			<div id="healtheducationmilitarygdp08_div"></div>
+			<button onclick="healtheducationgdp_view08()" id="myInput08" value="GDP08">Comparison with GDP or Military</button>
+			<script>
+				function healtheducationgdp_view08() {
+				  var Year = document.getElementById("myInput08").value;
+				  switch(Year) {
+					case ("GDP08"):
+						drawSheetName('healtheducationmilitary', 'SELECT A, D, AD, Q', healtheducationmilitary08ResponseHandler);
+					default:
+						drawSheetName('healtheducationgdp', 'SELECT A, D, AD, Q', healtheducationgdp08ResponseHandler);
+				  }
+				}
+			</script>
+		</div>
+		</div>
+		<div class="healtheducationmilitarygdp09_div">
+			<div id="gdpmilitaryhealtheducation09_div"></div>
+			<div id="healtheducationmilitarygdp09_div"></div>
+			<button onclick="healtheducationgdp_view09()" id="myInput09" value="GDP09">Comparison with GDP or Military</button>
+			<script>
+				function healtheducationgdp_view09() {
+				  var Year = document.getElementById("myInput09").value;
+				  switch(Year) {
+					case ("GDP09"):
+						drawSheetName('healtheducationmilitary', 'SELECT A, E, AE, R', healtheducationmilitary09ResponseHandler);
+					default:
+						drawSheetName('healtheducationgdp', 'SELECT A, E, AE, R', healtheducationgdp09ResponseHandler);
+				  }
+				}
+			</script>
+		</div>
+		</div>
+		<div class="healtheducationmilitarygdp10_div">
+			<div id="gdpmilitaryhealtheducation10_div"></div>
+			<div id="healtheducationmilitarygdp10_div"></div>
+			<button onclick="healtheducationgdp_view10()" id="myInput10" value="GDP10">Comparison with GDP or Military</button>
+			<script>
+				function healtheducationgdp_view10() {
+				  var Year = document.getElementById("myInput10").value;
+				  switch(Year) {
+					case ("GDP10"):
+						drawSheetName('healtheducationmilitary', 'SELECT A, F, AF, S', healtheducationmilitary10ResponseHandler);
+					default:
+						drawSheetName('healtheducationgdp', 'SELECT A, F, AF, S', healtheducationgdp10ResponseHandler);
+				  }
+				}
+			</script>
+		</div>
+		
+		<div class="healtheducationmilitarygdp11_div">
+			<div id="gdpmilitaryhealtheducation11_div"></div>
+			<div id="healtheducationmilitarygdp11_div"></div>
+			<button onclick="healtheducationgdp_view11()" id="myInput11" value="GDP11">Comparison with GDP or Military</button>
+			<script>
+				function healtheducationgdp_view11() {
+				  var Year = document.getElementById("myInput11").value;
+				  switch(Year) {
+					case ("GDP11"):
+						drawSheetName('healtheducationmilitary', 'SELECT A, G, AG, T', healtheducationmilitary11ResponseHandler);
+					default:
+						drawSheetName('healtheducationgdp', 'SELECT A, G, AG, T', healtheducationgdp11ResponseHandler);
+				  }
+				}
+			</script>
+		</div>
+		
+		<div class="healtheducationmilitarygdp12_div">
+			<div id="gdpmilitaryhealtheducation12_div"></div>
+			<div id="healtheducationmilitarygdp12_div"></div>
+			<button onclick="healtheducationgdp_view12()" id="myInput12" value="GDP12">Comparison with GDP or Military</button>
+			<script>
+				function healtheducationgdp_view12() {
+				  var Year = document.getElementById("myInput12").value;
+				  switch(Year) {
+					case ("GDP12"):
+						drawSheetName('healtheducationmilitary', 'SELECT A, H, AH, U', healtheducationmilitary12ResponseHandler);
+					default:
+						drawSheetName('healtheducationgdp', 'SELECT A, H, AH, U', healtheducationgdp12ResponseHandler);
+				  }
+				}
+			</script>
+		</div>
+		<div class="healtheducationmilitarygdp13_div">
+			<div id="gdpmilitaryhealtheducation13_div"></div>
+			<div id="healtheducationmilitarygdp13_div"></div>
+			<button onclick="healtheducationgdp_view13()" id="myInput13" value="GDP13">Comparison with GDP or Military</button>
+			<script>
+				function healtheducationgdp_view13() {
+				  var Year = document.getElementById("myInput13").value;
+				  switch(Year) {
+					case ("GDP13"):
+						drawSheetName('healtheducationmilitary', 'SELECT A, I, AI, V', healtheducationmilitary13ResponseHandler);
+					default:
+						drawSheetName('healtheducationgdp', 'SELECT A, I, AI, V', healtheducationgdp13ResponseHandler);
+				  }
+				}
+			</script>
+		</div>
+		
+		<div class="healtheducationmilitarygdp14_div">
+			<div id="gdpmilitaryhealtheducation14_div"></div>
+			<div id="healtheducationmilitarygdp14_div"></div>
+			<button onclick="healtheducationgdp_view14()" id="myInput14" value="GDP14">Comparison with GDP or Military</button>
+			<script>
+				function healtheducationgdp_view14() {
+				  var Year = document.getElementById("myInput14").value;
+				  switch(Year) {
+					case ("GDP14"):
+						drawSheetName('healtheducationmilitary', 'SELECT A, J, AJ, W', healtheducationmilitary14ResponseHandler);
+					default:
+						drawSheetName('healtheducationgdp', 'SELECT A, J, AJ, W', healtheducationgdp14ResponseHandler);
+				  }
+				}
+			</script>
+		</div>
+		</br>
+		<div id="section3">
+		<h1>Section 3 - Health and Education expenditure vs GDP per capita</h1>
+		</br>
+		<h3>In the following charts, I compared the Health, education expenditures vs GDP per capita of countries
+		in each year from 2006 to 2014.</h3>
+		
+		</br>
+		<div id="hegdppercapita2006_div"></div>
+		</br>
+		<div id="hegdppercapita2007_div"></div>
+		</br>
+		<div id="hegdppercapita2008_div"></div>
+		</br>
+		<div id="hegdppercapita2009_div"></div>
+		</br>
+		<div id="hegdppercapita2010_div"></div>
+		</br>
+		<div id="hegdppercapita2011_div"></div>
+		</br>
+		<div id="hegdppercapita2012_div"></div>
+		</br>
+		<div id="hegdppercapita2013_div"></div>
+		</br>
+		<div id="hegdppercapita2014_div"></div>
+		</br>
+		</div>
+		<div id="section4">
+		<h1>Section 4 - Fastest growing health and education</h1>
+		</br>
+		<h3>In the following charts, I visualized the Health, education expenditures growth of countries from 2006 to 2014.</h3>
+		</br>
+		<div id="fastesthealthgrowing_div"></div>
+		</br>
+		<div id="fastesteducationgrowing_div"></div>
+		</br>
+		<div id="fastesthealthgrowingpercent_div"></div>
+		</br>
+		<div id="fastesteducationgrowingpercent_div"></div>
+		</br>
+		</div>
+		</br>
+		<div id='conclusion'>
+		<h2>Conclusion:</h2></br>
+		<h3>1. USA, UK and Canada have higher GDP, education and health expenditure per capita.</br>
+		2. The health and education expenditure of India, China and Russia are almost equal to their military expenditure.</br>  
+		3. USA and Canada have highest GDP, health expenditure and education expenditure per capita in comparison with other countries.</br>
+		4. India, China and Russia have higher GDP but they spend less than other countries such as Canada on health and education.</br>
+		5. Average growth percentage shows that India, China, Russia and Brazil had faster growth in both health and education expenditure. 
+		
+		</h3>
+		</br>
+		</br>
+		<h3> Thank you! </h3>
+		</div><!--Conclusion div-->
+		</br>
+		</br>
+		</br>
+		
+	</body>
+	
+</html>
+

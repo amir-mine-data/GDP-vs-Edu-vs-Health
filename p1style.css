@@ -1,0 +1,160 @@
+html{height: 100%;}
+
+* {margin: 0;
+   padding: 0;}
+
+h1, h2, h3 
+{font: normal 175% 'century gothic', arial, sans-serif;
+ color: #111;
+
+ padding: 5px 0 5px 0;
+ text-align:center;
+}
+h1{
+	font: bold 175% 'century gothic', arial, sans-serif;
+}
+h2{
+	font: bold 120% 'century gothic', arial, sans-serif;
+}
+h3{
+	font: bold 100% 'century gothic', arial, sans-serif;
+}
+.healtheducationmilitarygdp06_div {
+	float:left;
+}
+.healtheducationmilitarygdp07_div {
+	float:left;
+}
+.healtheducationmilitarygdp08_div {
+	float:left;
+}
+.healtheducationmilitarygdp09_div {
+	float:left;
+}
+.healtheducationmilitarygdp10_div {
+	float:left;
+}
+.healtheducationmilitarygdp11_div {
+	float:left;
+}
+.healtheducationmilitarygdp12_div {
+	float:left;
+}
+.healtheducationmilitarygdp13_div {
+	float:left;
+}
+.healtheducationmilitarygdp14_div {
+	float:left;
+}
+#section3{
+	float:left;
+}
+#section4{
+	float:left;
+}
+#hegdppercapita2006_div {
+	float:left;
+}
+#hegdppercapita2007_div {
+	float:left;
+}
+#hegdppercapita2008_div {
+	float:left;
+}
+#hegdppercapita2009_div {
+	float:left;
+}
+#hegdppercapita2010_div {
+	float:left;
+}
+#hegdppercapita2011_div {
+	float:left;
+}
+#hegdppercapita2012_div {
+	float:left;
+}
+#hegdppercapita2013_div {
+	float:left;
+}
+#hegdppercapita2014_div {
+	float:left;
+}
+
+button{
+	color: white;	
+	background-color: #109618;
+	border-radius: 2px;
+	display:block;
+	margin-top: 250px;
+	height: 50px;
+	width: 150px;
+}
+#healtheducationmilitarygdp06_div{
+	float:left;
+}
+#healtheducationmilitarygdp07_div{
+	float:left;
+}
+#healtheducationmilitarygdp08_div{
+	float:left;
+}
+#healtheducationmilitarygdp09_div{
+	float:left;
+}
+#healtheducationmilitarygdp10_div{
+	float:left;
+}
+#healtheducationmilitarygdp11_div{
+	float:left;
+}
+#healtheducationmilitarygdp12_div{
+	float:left;
+}
+#healtheducationmilitarygdp13_div{
+	float:left;
+}
+#healtheducationmilitarygdp14_div{
+	float:left;
+}
+#fastesteducationgrowingpercent_div{
+	float:left;
+}
+#fastesthealthgrowingpercent_div{
+	float:left;
+}
+#fastesteducationgrowing_div{
+	float:left;
+}
+#fastesthealthgrowing_div{
+	float:left;
+}
+#gdpmilitaryhealtheducation_div{
+	float:left;
+}
+
+#countriesgdp_div{
+	margin-left: -150px;
+}
+#topaveragegdppercentage_div{
+	margin-left: 200px;
+}
+#topaveragehealth_div{
+	margin-left: 200px;
+}
+#topaverageeducation_div{
+	margin-left: 200px;
+}
+#conclusion{
+	float: left;
+	text-align: center;
+	margin-left:200px;
+}
+footer{
+	float:left;
+	display:block;
+}
+
+/*#fastesthealthgrowing_div{
+	margin-left: 50px;
+}*/
+
